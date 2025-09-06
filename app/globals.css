@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 12 10% 4%;
+  --fg: 0 0% 98%;
+}
+
+html, body {
+  background-color: hsl(var(--bg) / 1);
+  color: hsl(var(--fg) / 1);
+}
+a { text-decoration: none; }
