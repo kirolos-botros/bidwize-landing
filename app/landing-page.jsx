@@ -72,17 +72,26 @@ function NavBar() {
 }
 
 function Background() {
+  // inline SVG encoded safely so webpack/Next don't choke
+  const NOISE_SVG = encodeURIComponent(
+    `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'>
+       <filter id='n'>
+         <feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='2' stitchTiles='stitch'/>
+       </filter>
+       <rect width='100%' height='100%' filter='url(#n)' opacity='0.35'/>
+     </svg>`
+  );
+
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      <div
-        className="absolute -top-40 left-1/2 h-[700px] w-[700px] -translate-x-1/2 rounded-full blur-3xl"
-        style={{ background: `linear-gradient(to bottom, ${THEME.gradientVia}33, ${THEME.gradientFrom}22, transparent)` }}
-      />
+      {/* soft radial spotlight */}
+      <div className="absolute -top-40 left-1/2 h-[700px] w-[700px] -translate-x-1/2 rounded-full bg-gradient-to-b from-fuchsia-500/20 via-indigo-500/10 to-transparent blur-3xl" />
+      {/* subtle grid */}
       <div className="absolute inset-0 bg-[radial-gradient(#ffffff10_1px,transparent_1px)] [background-size:20px_20px] opacity-[0.25]" />
+      {/* noise overlay (now safely encoded) */}
       <div
         className="absolute inset-0 opacity-20 mix-blend-overlay"
-        style={{ backgroundImage: "url('data:image/svg+xml;utf8,\\
-          <svg xmlns=\\\\'http://www.w3.org/2000/svg\\\\' viewBox=\\\\'0 0 100 100\\\\' preserveAspectRatio=\\\\'none\\\\'><filter id=\\\\'n\\\\'><feTurbulence type=\\\\'fractalNoise\\\\' baseFrequency=\\\\'0.65\\\\' numOctaves=\\\\'2\\\\' stitchTiles=\\\\'stitch\\\\'/></filter><rect width=\\\\'100%\\\\' height=\\\\'100%\\\\' filter=\\\\'url(%23n)\\\\' opacity=\\\\'0.35\\\\'/></svg>')" }}
+        style={{ backgroundImage: `url("data:image/svg+xml;utf8,${NOISE_SVG}")` }}
       />
     </div>
   );
